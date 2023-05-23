@@ -1,8 +1,6 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const requiredEnvs = ['PORT', 'NODE_ENV'];
-
 interface IAppConfig {
   port: number;
   nodeEnv: string;
@@ -10,6 +8,7 @@ interface IAppConfig {
 }
 
 export class AppConfig {
+  private static requiredEnvs = ['PORT', 'NODE_ENV'];
   private static _environment: IAppConfig | undefined;
 
   static get environment(): IAppConfig {
@@ -21,7 +20,7 @@ export class AppConfig {
   }
 
   static validateIfRequiredEnvsArePresent() {
-    requiredEnvs.forEach((env) => {
+    this.requiredEnvs.forEach((env) => {
       if (!process.env[env]) {
         throw new Error(`Environment variable ${env} is missing`);
       }
